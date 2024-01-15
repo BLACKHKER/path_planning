@@ -1,0 +1,20 @@
+﻿# 字节编译 / 优化 / DLL文件
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+*/migrations/
+
+# Jetbrains
+.idea
+
+# VSCode project settings
+.vscode/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
