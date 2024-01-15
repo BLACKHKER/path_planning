@@ -1,0 +1,56 @@
+<indoor_map>
+  <map_info>
+    <map_size>
+      <width>2760</width>
+      <height>2560</height>
+    </map_size>
+    <origin>
+      <x>636</x>
+      <y>1284</y>
+      <x_v>1</x_v>
+      <y_v>-1</y_v>
+    </origin>
+    <ratio>49.6</ratio>
+    <grid_size>10</grid_size>
+    <protection_rad>5</protection_rad>
+  </map_info>
+
+  <buildings>
+    <building>
+      <type>wall</type>
+      <start_point>
+        <x>0</x>
+        <y>0</y>
+      </start_point>
+      <end_point>
+        <x>0</x>
+        <y>188</y>
+      </end_point>
+    </building>
+  </buildings>
+
+  <static_objects>
+    <object>
+      <type>box</type>
+      <top_left>
+        <x>10</x>
+        <y>10</y>
+      </top_left>
+      <bottom_right>
+        <x>16</x>
+        <y>18</y>
+      </bottom_right>
+    </object>
+    <object>
+      <type>box</type>
+      <top_left>
+        <x>19</x>
+        <y>19</y>
+      </top_left>
+      <bottom_right>
+        <x>28</x>
+        <y>28</y>
+      </bottom_right>
+    </object>
+  </static_objects>
+</indoor_map>
