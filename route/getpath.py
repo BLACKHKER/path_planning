@@ -1,31 +1,16 @@
-import time
+import os
 
 import cv2
 
 from route import PathPlanner
 from route.convertimage import create_grids, array_to_image
-from route.utils import parse_xml_file, save_figure
+from route.utils import parse_xml_file, save_figure, real2pixel
 
-# xml_file_path = "D:/PycharmWorkspace/my_backend_s/route/map.xml"
-xml_file_path = "/root/web/my_backend_s/route/map.xml"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+xml_file_path = os.path.join(base_dir, "map.xml")
 xml_dict = parse_xml_file(xml_file_path)
 
 grid_size = int(xml_dict['map_info']['grid_size'])
-
-
-def real2pixel(real_pos):
-    """
-    :param real_pos:世界实际坐标，单位cm
-    :return:
-    """
-    ratio = float(xml_dict['map_info']['ratio'])
-    origin_x = int(xml_dict['map_info']['origin']['x'])
-    origin_y = int(xml_dict['map_info']['origin']['y'])
-    x_v = int(xml_dict['map_info']['origin']['x_v'])
-    y_v = int(xml_dict['map_info']['origin']['y_v'])
-    pixel_x = int(origin_x + real_pos[0] * x_v / 100 * ratio)
-    pixel_y = int(origin_y + real_pos[1] * y_v / 100 * ratio)
-    return pixel_x, pixel_y
 
 
 def pixel2grid(pixel_pos):
@@ -52,8 +37,7 @@ def pixel2real(pixel_pos):
 
 
 def merge_points(points):
-    merged_points = [points[0]]  # 初始化合并后的点列表并添加第一个点
-    prev_slope = None  # 初始化前一个斜率
+    merged_points = [points[0]]
     for i in range(1, len(points) - 1):  # 修改遍历范围以排除最后一个点
         x1, y1 = points[i - 1]  # 获取前一个点的坐标
         x2, y2 = points[i]  # 获取当前点的坐标
@@ -74,8 +58,6 @@ def find_path(grids_map, start_real, end_real, save=False):
     end_grid = pixel2grid(end_px)
 
     print(start_grid, end_grid)
-    # grids_map = create_grids('map.png', grid_size)
-    # print(grids_map)
 
     grids_img = array_to_image(grids_map)
 
@@ -86,7 +68,7 @@ def find_path(grids_map, start_real, end_real, save=False):
     if grid_path is None:
         cv2.circle(grids_img, start_grid, 2, (0, 255, 0), -1)
         cv2.circle(grids_img, end_grid, 2, (0, 0, 255), -1)
-        cv2.imwrite("/root/web/my_backend_s/route/" + 'grids.png', grids_img)
+        cv2.imwrite('grids.png', grids_img)
         real_path = [start_real, end_real]
         if save:
             save_figure(grids_map, real_path)
@@ -97,9 +79,7 @@ def find_path(grids_map, start_real, end_real, save=False):
 
     cv2.circle(grids_img, start_grid, 2, (0, 255, 0), -1)
     cv2.circle(grids_img, end_grid, 2, (0, 0, 255), -1)
-    # cv2.imshow('image', grids_img)
-    # cv2.waitKey(0)
-    cv2.imwrite("/root/web/my_backend_s/route/" + 'grids.png', grids_img)
+    cv2.imwrite('grids.png', grids_img)
 
     merge_dict = merge_points(grid_path)
 
@@ -123,7 +103,7 @@ if __name__ == '__main__':
     start_real = (0, 0)
     end_real = (200, 200)
 
-    grids_map = create_grids("/root/web/my_backend_s/route/" + 'map.png', grid_size)
+    grids_map = create_grids('map.png', grid_size)
 
     path = find_path(grids_map, start_real, end_real, save=True)
     print(path)

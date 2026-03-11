@@ -1,3 +1,4 @@
+import os.path
 import xml.etree.ElementTree as ET
 
 import cv2
@@ -25,9 +26,8 @@ def parse_xml_file(file_path):
     root = tree.getroot()
     return xml_to_dict(root)
 
-
-# xml_file_path = "D:/PycharmWorkspace/my_backend_s/route/map.xml"
-xml_file_path = "/root/web/my_backend_s/route/map.xml"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+xml_file_path = os.path.join(base_dir, "map.xml")
 xml_dict = parse_xml_file(xml_file_path)
 
 grid_size = int(xml_dict['map_info']['grid_size'])
@@ -49,7 +49,7 @@ def real2pixel(real_pos):
 
 
 def save_figure(grid_map, real_path, filename='result.png'):
-    img = cv2.imread('/root/web/my_backend_s/route/map.png')
+    img = cv2.imread('map.png')
     for i in range(len(grid_map)):
         for j in range(len(grid_map[0])):
             y_start = i * grid_size
@@ -66,5 +66,5 @@ def save_figure(grid_map, real_path, filename='result.png'):
         for item in real_path:
             cv2.circle(img, real2pixel(item), int(grid_size / 2), (255, 0, 0), -1)
 
-    cv2.imwrite("/root/web/my_backend_s/route/" + filename, img)
+    cv2.imwrite(filename, img)
     return img

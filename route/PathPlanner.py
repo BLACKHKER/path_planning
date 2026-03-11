@@ -1,7 +1,6 @@
 import time
 
 from astar import AStar
-import sys
 import math
 
 from route.convertimage import create_grids
@@ -28,10 +27,6 @@ class PathPlanner(AStar):
         (x2, y2) = n2
         self.lines[y1][x1] = 2
         self.lines[y2][x2] = 2
-        """this method always returns 1, as two 'neighbors' are always adajcent"""
-        # (x1, y1) = n1
-        # (x2, y2) = n2
-        # return math.hypot(x2 - x1, y2 - y1)
         return 1
 
     def neighbors(self, node):

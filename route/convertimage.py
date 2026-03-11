@@ -1,16 +1,12 @@
 import cv2
 from PIL import Image
 import numpy as np
-import matplotlib.pyplot as plt
-from numpy import shape
 
 from route.utils import parse_xml_file
 
 
 def is_obstacle(pixel):
-    # 假设黑色为 (0, 0, 0)，白色为 (255, 255, 255)
     black_count = sum(1 for value in pixel if value < 200)
-    white_count = sum(1 for value in pixel if value > 200)
     return black_count > 0
 
 
@@ -53,9 +49,6 @@ def create_grids(image_path, grid_size, xml_dict, protection_rad=5):
             if is_obs:
                 grids_img[y // grid_size, x // grid_size] = 255
                 grids_map[y // grid_size][x // grid_size] = 1  # True表示障碍物，False表示空地
-
-    # cv2.imshow('grids_map', cv2.resize(grids_img, [grids_img.shape[1], grids_img.shape[0]]))
-    # cv2.waitKey(0)
 
     return grids_map
 

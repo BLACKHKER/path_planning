@@ -8,16 +8,16 @@ from route.convertimage import create_grids
 from route.getpath import find_path
 from route.utils import parse_xml_file
 
-# broker = '192.168.11.87'
 broker = '8.137.120.144'
 port = 1883
 
 topic = "Location"
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 
-xml_dict = parse_xml_file('route/map.xml')
+xml_dict = parse_xml_file('map.xml')
 grid_size = int(xml_dict['map_info']['grid_size'])
-grids_map = create_grids('route/map.png', grid_size, xml_dict)
+grids_map = create_grids('map.png', grid_size, xml_dict)
+
 
 def on_connect(client, userdata, flags, rc):
     print("Connected MQTT, result code " + str(rc))
@@ -29,7 +29,7 @@ def on_message(client, userdata, msg):
     print("get message from topic", msg.topic)
     print("this message payload: " + str(msg.payload))
     path = []
-    data = json.loads(str(msg.payload)[2:-1].replace("'", "\""))['data'][0]
+    data = json.loads(str(msg.payload)[2:-1].replace("'", "\""))['data']
     for i in range(len(data) - 1):
         start_point = (int(data[i]['x']), int(data[i]['y']))
         end_point = (int(data[i + 1]['x']), int(data[i + 1]['y']))
@@ -48,7 +48,7 @@ def publish_data(client, data):
     result = client.publish("Route_mode", msg)
     status = result[0]
     if status == 0:
-        print('-' * 80 + 'publish to topic Route_mode' + '-' * 80 + '\n' + msg)
+        print('publish to topic Route_mode' + msg)
     else:
         print(f"Failed to send message to topic Location")
 
