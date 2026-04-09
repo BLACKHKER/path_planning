@@ -29,6 +29,8 @@ def on_message(client, userdata, msg):
     print("get message from topic", msg.topic)
     print("this message payload: " + str(msg.payload))
     path = []
+    # Topic Route_set
+    # Test message: {"data": [{"x": 50, "y": 50}, {"x": 100, "y": 50}, {"x": 100, "y": 100}]}
     data = json.loads(str(msg.payload)[2:-1].replace("'", "\""))['data']
     for i in range(len(data) - 1):
         start_point = (int(data[i]['x']), int(data[i]['y']))
