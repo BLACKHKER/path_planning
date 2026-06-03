@@ -13,6 +13,6 @@
 .vscode/
 
 # png
-grids.png
-result.png
+*/grids.png
+*/result.png
 
